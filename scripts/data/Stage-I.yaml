@@ -1,0 +1,3 @@
+datasets:
+  - json_path: data/LLaVA-Pretrain/blip_laion_cc_sbu_558k_mixin.json
+    sampling_strategy: all

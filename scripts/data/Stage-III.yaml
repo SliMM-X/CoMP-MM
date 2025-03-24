@@ -1,0 +1,5 @@
+datasets:
+  - json_path: data/LLaVA-NeXT-Data/llava_next_748k_mixin.json
+    sampling_strategy: all
+  - json_path: data/llava_ov_si_only_image.json
+    sampling_strategy: all

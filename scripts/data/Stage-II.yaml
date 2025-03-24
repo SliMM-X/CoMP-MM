@@ -1,0 +1,17 @@
+datasets:
+  - json_path: data/LLaVA-OneVision-Mid-Data/synthdog_en_processed.json
+    sampling_strategy: all
+  - json_path: data/LLaVA-OneVision-Mid-Data/synthdog_zh_processed.json
+    sampling_strategy: all
+  - json_path: data/LLaVA-OneVision-Mid-Data/ureader_tr_processed.json
+    sampling_strategy: all
+  - json_path: data/cc3m_llava_recap/cc3m_llava_recap_2m_subset.json
+    sampling_strategy: all
+  - json_path: data/LLaVA-ReCap-118K/LLaVA-ReCap-118K_all.json
+    sampling_strategy: all
+  - json_path: data/LLaVA-ReCap-558K/LLaVA-ReCap-558K_all.json
+    sampling_strategy: all
+  - json_path: data/DenseFusion/DenseFusion-1M.json
+    sampling_strategy: all
+  # - json_path: data/LLaVA-OneVision-Mid-Data/evol_instruct/evol_instruct_processed.json
+  #   sampling_strategy: all
