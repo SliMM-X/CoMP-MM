@@ -31,7 +31,15 @@ pip install -e .
 
 # additional packages for training cases
 pip install -e ".[train]"
+
+# install flash-attn directly
 pip install flash-attn --no-build-isolation
+
+# or build it from source
+git clone https://github.com/Dao-AILab/flash-attention.git
+cd flash-attention
+git checkout v2.3.6
+python setup.py install
 ```
 
 ## Quick Start With HuggingFace
