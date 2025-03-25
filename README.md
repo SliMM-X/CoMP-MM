@@ -47,9 +47,10 @@ Example Code of CoMP-VFMs:
 ```Python
 import torch
 from slimm.model.processor import SliMMQwen2VLProcessor
-from slimm.model.utils_vl import process_vision_info
 from slimm.model.vision_encoder import CoMPSiglipVisionModel, CoMPDinov2Model
 from PIL import Image
+import requests
+from io import BytesIO
 
 model_path = "SliMM-X/CoMP-SigLIP-So400M"
 # model_path = "SliMM-X/CoMP-DINOv2-Large"
@@ -64,7 +65,10 @@ model = CoMPSiglipVisionModel.from_pretrained(
 
 processor = SliMMQwen2VLProcessor.from_pretrained(model_path)
 
-image_input = Image.open("https://slimm-x.github.io/comp/figs/teaser.png")
+urldata = requests.get("https://slimm-x.github.io/comp/figs/teaser.png")
+temp_img = BytesIO(urldata.content)
+image_input = Image.open(temp_img)
+
 inputs = processor(
     images=image_input,
     return_tensors="pt",
