@@ -149,7 +149,7 @@ If you find our work helpful, please consider citing our paper :paperclip: and s
 ```
 @article{comp2025,
       title={CoMP: Continual Multimodal Pre-training for Vision Foundation Models}, 
-      author={Yitong Chen and Lingchen Meng and Wujian Peng and Zuxuan Wu and Yu-Gang Jiang},
+      author={Chen, Yitong and Meng, Lingchen and Peng, Wujian and Wu, Zuxuan and Jiang, Yu-Gang},
       year={2025},
       journal={arXiv preprint arXiv:2503.18931}, 
 }
