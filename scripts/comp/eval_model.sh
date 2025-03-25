@@ -13,4 +13,4 @@ accelerate launch --num_processes=$NGPUS --main_process_port=$PORT \
     --batch_size 1 \
     --log_samples \
     --log_samples_suffix outputs \
-    --output_path $CKPT/logs
+    --output_path logs/
