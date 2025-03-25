@@ -556,13 +556,16 @@ class PatchMerger(nn.Module):
         return x
 
 class CoMPDinov2Model(Dinov2PreTrainedModel):
-    def __init__(self, config: Dinov2Config):
+    def __init__(self, config: Dinov2Config, w_merger=True):
         super().__init__(config)
         self.config = config
         self.embeddings = CoMPDinov2Embeddings(config)
         self.encoder = CoMPDinov2Encoder(config)
-        self.merger = PatchMerger(
-            dim=config.llm_hidden_size, context_dim=config.hidden_size, spatial_merge_size=config.spatial_merge_size
+        self.w_merger = w_merger
+        if self.w_merger:
+            llm_hidden_size = getattr(config, 'llm_hidden_size', 896)
+            self.merger = PatchMerger(
+            dim=llm_hidden_size, context_dim=config.hidden_size, spatial_merge_size=config.spatial_merge_size
         )
         if getattr(config, 'spatial_merge_size', None) is None:
             config.spatial_merge_size = 2
@@ -657,7 +660,8 @@ class CoMPDinov2Model(Dinov2PreTrainedModel):
         )
 
         sequence_output = encoder_outputs[0]
-        sequence_output = self.layernorm(sequence_output)
-        output = self.merger(sequence_output)
+        output = self.layernorm(sequence_output)
+        if self.w_merger:
+            output = self.merger(output)
 
         return output
