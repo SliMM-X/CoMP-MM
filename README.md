@@ -18,7 +18,7 @@ Yitong Chen<sup>1,2*</sup>, [Lingchen Meng](https://menglcool.github.io/)<sup>1*
 
 1. Clone this repository and navigate to CoMP-SliMM folder
 ```bash
-git https://github.com/SliMM-X/CoMP-MM.git
+git clone https://github.com/SliMM-X/CoMP-MM.git
 cd CoMP-MM
 ```
 
