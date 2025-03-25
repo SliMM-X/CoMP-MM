@@ -13,6 +13,8 @@ if is_flash_attn_2_available():
     from transformers.modeling_flash_attention_utils import _flash_attention_forward, flash_attn_varlen_func
 
 from transformers.models.qwen2_vl.modeling_qwen2_vl import apply_rotary_pos_emb_vision
+from transformers.modeling_utils import PreTrainedModel
+
 
 
 class VisionRotaryEmbedding(nn.Module):
@@ -404,6 +406,23 @@ class CoMPSiglipVisionTransformer(nn.Module):
 
         return last_hidden_state
 
+class SiglipPreTrainedModel(PreTrainedModel):
+    """
+    An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
+    models.
+    """
+
+    config_class = SiglipConfig
+    base_model_prefix = "siglip"
+    supports_gradient_checkpointing = True
+
+    _supports_flash_attn_2 = True
+    _supports_sdpa = True
+
+    def _init_weights(self, module):
+        """Initialize the weights"""
+        "We pass it for continual pre-training and to avoid error from init."
+        pass
 
 class CoMPSiglipVisionModel(SiglipPreTrainedModel):
     config_class = SiglipVisionConfig
