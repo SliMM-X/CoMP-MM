@@ -9,7 +9,7 @@ Yitong Chen<sup>1,2*</sup>, [Lingchen Meng](https://menglcool.github.io/)<sup>1*
 
  <sup>*</sup> Equal contributions; <sup>&dagger;</sup> Corresponding author.
 
-[[`Paper`](Coming soon)] 
+[[`Paper`](https://arxiv.org/abs/2503.18931)] 
 [[`Website`](https://slimm-x.github.io/comp/)] 
 [[`Model`](https://huggingface.co/SliMM-X)] 
 </div>
@@ -147,7 +147,12 @@ bash scripts/comp/eval.sh
 If you find our work helpful, please consider citing our paper :paperclip: and starring our repo :star2: :
 
 ```
-
+@article{comp2025,
+      title={CoMP: Continual Multimodal Pre-training for Vision Foundation Models}, 
+      author={Yitong Chen and Lingchen Meng and Wujian Peng and Zuxuan Wu and Yu-Gang Jiang},
+      year={2025},
+      journal={arXiv preprint arXiv:2503.18931}, 
+}
 ```
 
 ## Acknowledgement
