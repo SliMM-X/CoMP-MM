@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torch.nn import CrossEntropyLoss, LayerNorm
 from typing import Any, Optional, Tuple, Union
 
-from transformers.models.siglip.modeling_siglip import SiglipVisionConfig, SiglipConfig, SiglipMLP, SiglipPreTrainedModel
+from transformers.models.siglip.modeling_siglip import SiglipVisionConfig, SiglipConfig, SiglipMLP
 from transformers.utils import is_flash_attn_2_available, is_flash_attn_greater_or_equal_2_10, torch_int
 
 from transformers.modeling_outputs import BaseModelOutput, BaseModelOutputWithPooling, ImageClassifierOutput
@@ -406,6 +406,33 @@ class CoMPSiglipVisionTransformer(nn.Module):
 
         return last_hidden_state
 
+from torch.nn.init import _calculate_fan_in_and_fan_out
+import math
+
+def variance_scaling_(tensor, scale=1.0, mode="fan_in", distribution="normal"):
+    fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
+    if mode == "fan_in":
+        denom = fan_in
+    elif mode == "fan_out":
+        denom = fan_out
+    elif mode == "fan_avg":
+        denom = (fan_in + fan_out) / 2
+
+    variance = scale / denom
+
+    if distribution == "normal":
+        with torch.no_grad():
+            tensor.normal_(std=math.sqrt(variance))
+    elif distribution == "uniform":
+        bound = math.sqrt(3 * variance)
+        with torch.no_grad():
+            tensor.uniform_(-bound, bound)
+    else:
+        raise ValueError(f"invalid distribution {distribution}")
+
+def lecun_normal_(tensor):
+    variance_scaling_(tensor, mode="fan_in", distribution="normal")
+
 class SiglipPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -419,10 +446,17 @@ class SiglipPreTrainedModel(PreTrainedModel):
     _supports_flash_attn_2 = True
     _supports_sdpa = True
 
+    # We rewrite the lecun_normal to support bf16 training
     def _init_weights(self, module):
         """Initialize the weights"""
-        "We pass it for continual pre-training and to avoid error from init."
-        pass
+        if isinstance(module, (nn.Linear, nn.Conv2d)):
+            lecun_normal_(module.weight)
+            if module.bias is not None:
+                nn.init.zeros_(module.bias)
+        elif isinstance(module, nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)
+
 
 class CoMPSiglipVisionModel(SiglipPreTrainedModel):
     config_class = SiglipVisionConfig
